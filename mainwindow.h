@@ -3,20 +3,52 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
-}
+//namespace Ui {
+//class MainWindow;
+//}
+#define WIDTH 800
+#define HEIGHT 600
+
+class QLabel;
+class QMenu;
+class QAction;
+class QScrollArea;
+
+class GLWidget;
+class CoordSysWidget;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
+
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    
+    MainWindow();
+
+private slots:
+    void about();
+
 private:
-    Ui::MainWindow *ui;
+//    Helper helper;
+    void createMenus();
+    void createActions();
+
+    QWidget *centralWidget;
+    QScrollArea *glWidgetArea;
+    QScrollArea *coordSysArea;
+    GLWidget *glWidget;
+    QWidget *coordWidget;
+
+    QMenu *dataMenu;
+    QMenu *modelMenu;
+    QMenu *seismicSourceMenu;
+    QMenu *helpMenu;
+    QAction *fileFormatAct;
+    QAction *mergeAct;
+    QAction *signalAnalysisAct;
+    QAction *exitAct;
+    QAction *dividToGridAct;
+    QAction *travelTimeCalcAct;
+    QAction *aboutAct;
 };
 
 #endif // MAINWINDOW_H
