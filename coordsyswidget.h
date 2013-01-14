@@ -21,13 +21,14 @@ signals:
 
 protected:
     void initializeGL();
-//    void resizeGL(int width, int height);
+    void resizeGL(int width, int height);
     void paintGL();
     void timerEvent(QTimerEvent *);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
 
 private slots:
+//    void advenceCoord();
 
 private:
     GLuint makeCoords(const GLfloat *reflectanc);

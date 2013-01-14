@@ -21,7 +21,7 @@ CoordSysWidget::CoordSysWidget(QWidget *parent) :
     coordRot = 0;
 
 //    QTimer *timer = new QTimer(this);
-//    connect(timer, SIGNAL(timeout()), this, SLOT(advanceGears()));
+//    connect(timer, SIGNAL(timeout()), this, SLOT(advenceCoord()));
 //    timer->start(20);
 }
 
@@ -40,33 +40,30 @@ void CoordSysWidget::move()
 
 void CoordSysWidget::paintGL()
 {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(50, 1, 1, 40);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(2, 20, 20, 0, 0, 0, 0, 0, 1);
+//    glMatrixMode(GL_PROJECTION);
+//    glLoadIdentity();
+//    gluPerspective(45, 1, 1, 40);
+//    glMatrixMode(GL_MODELVIEW);
+//    glLoadIdentity();
+//    gluLookAt(7, -25, 10, 0, 0, 0, 0, 0, 1);
 
     glPushMatrix();
     glRotated(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
-
     move();
 //    glRotated(30.0, 1.0, 0.0, 0.0);
 //    glRotated(-20.0, 0.0, 1.0, 0.0);
-
     drawCoords(); // -2.0, -1.0, 0.0, coordRot / 16.0
+//    glPopMatrix();
 
-    glPopMatrix();
-
-    glPushMatrix();
+//    glPushMatrix();
     qglColor(Qt::gray);
     move();
-    renderText(0.0, 0.0, 8.3, "Coordition System");
-    renderText(7.7, -0.3, 0.0, "x");
-    renderText(-0.3, 7.7, 0.0, "y");
-    renderText(0.0, 0.3, 7.7, "z");
+//    renderText(0.0, 0.0, 10.5, "Coordition System");
+    renderText(10.1, -0.3, 0.0, "x");
+    renderText(-0.3, 10.1, 0.0, "y");
+    renderText(0.0, 0.3, 10.1, "z");
     glPopMatrix();
 }
 
@@ -75,23 +72,23 @@ void CoordSysWidget::drawCoords()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     GLfloat xVertices[][3] = {
-        {-8.0f, 0.0f, 0.0f},
-        {8.0f, 0.0f, 0.0f},
-        {7.75f, 0.15f, 0.0f},
-        {8.0f, 0.0f, 0.0f},
-        {7.75f, -0.15f, 0.0f}
+        {-10.0f, 0.0f, 0.0f}, {10.0f, 0.0f, 0.0f},
+        {9.75f, 0.15f, 0.0f}, {10.0f, 0.0f, 0.0f},
+        {9.75f, -0.15f, 0.0f},
+        {9.75f, 0.0f, 0.15f}, {10.0f, 0.0f, 0.0f},
+        {9.75f, 0.0f, -0.15f}
     }, yVertices[][3] = {
-        {0.0f, -8.0f, 0.0f},
-        {0.0f, 8.0f, 0.0f},
-        {-0.15f, 7.75f, 0.0f},
-        {0.0f, 8.0f, 0.0f},
-        {0.15f, 7.75f, 0.0f}
+        {0.0f, -10.0f, 0.0f}, {0.0f, 10.0f, 0.0f},
+        {-0.15f, 9.75f, 0.0f}, {0.0f, 10.0f, 0.0f},
+        {0.15f, 9.75f, 0.0f},
+        {0.0f, 9.75f, -0.15f}, {0.0f, 10.0f, 0.0f},
+        {0.0f, 9.75f, 0.15f}
     }, zVertices[][3] = {
-        {0.0f, 0.0f, -8.0f},
-        {0.0f, 0.0f, 8.0f},
-        {-0.15f, 0.0f, 7.75f},
-        {0.0f, 0.0f, 8.0f},
-        {0.15f, 0.0f, 7.75f}
+        {0.0f, 0.0f, -10.0f}, {0.0f, 0.0f, 10.0f},
+        {-0.15f, 0.0f, 9.75f}, {0.0f, 0.0f, 10.0f},
+        {0.15f, 0.0f, 9.75f},
+        {0.0f, -0.15f, 9.75f}, {0.0f, 0.0f, 10.0f},
+        {0.0f, 0.15f, 9.75f}
     };
 
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -100,19 +97,24 @@ void CoordSysWidget::drawCoords()
     glColor3f(1.0f, 0.0f, 0.0f);
     glDrawArrays(GL_LINES, 0, 2);
     glDrawArrays(GL_TRIANGLES, 2, 3);
+    glDrawArrays(GL_TRIANGLES, 5, 3);
 
     glColor3f(0.0f, 1.0f, 0.0f);
     glVertexPointer(3, GL_FLOAT, 0, yVertices);
     glDrawArrays(GL_LINES, 0, 2);
     glDrawArrays(GL_TRIANGLES, 2, 3);
+    glDrawArrays(GL_TRIANGLES, 5, 3);
 
     glColor3f(0.0f, 0.0f, 1.0f);
     glVertexPointer(3, GL_FLOAT, 0, zVertices);
     glDrawArrays(GL_LINES, 0, 2);
     glDrawArrays(GL_TRIANGLES, 2, 3);
+    glDrawArrays(GL_TRIANGLES, 5, 3);
 
+//    glPushMatrix();
+//    glTranslated(9.75f, 0.0f, 0.0f);
 //    glutSolidCone(0.013, 0.09, 10, 10);
-//    glTranslated(8.0f, 0.0f, 0.0f);
+//    glPopMatrix();
 
 //    glFlush();
 }
@@ -182,4 +184,24 @@ void CoordSysWidget::mouseMoveEvent(QMouseEvent *event)
         setZRotation(zRot + 8 * dx);
     }
     lastPos = event->pos();
+}
+
+//void CoordSysWidget::advenceCoord()
+//{
+//    coordRot += 2 * 16;
+//    updateGL();
+//}
+
+void CoordSysWidget::resizeGL(int width, int height)
+{
+    int side = qMin(width, height);
+    glViewport((width - side) / 2, (height - side) / 2, side, side);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-1.0, +1.0, -1.0, 1.0, 5.0, 60.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glTranslated(0.0, 0.0, -40.0);
+    gluLookAt(3, -7, 7, 0, 0, 0, 0, 0, 1);
 }

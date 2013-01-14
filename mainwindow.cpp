@@ -1,6 +1,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 
+#include "coordwidget.h"
 #include "coordsyswidget.h"
 #include "mainwindow.h"
 
@@ -9,19 +10,19 @@ MainWindow::MainWindow()
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
-//    glWidget = new GLWidget;
-    coordWidget = new CoordSysWidget;
+    coordWidget = new CoordWidget;
+    coordSysWidget = new CoordSysWidget;
 
-//    glWidgetArea = new QScrollArea;
-//    glWidgetArea->setWidget(glWidget);
-//    glWidgetArea->setWidgetResizable(true);
-//    glWidgetArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    glWidgetArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    glWidgetArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-//    glWidgetArea->setMinimumSize(50, 50);
+    coordInputArea = new QScrollArea;
+    coordInputArea->setWidget(coordWidget);
+    coordInputArea->setWidgetResizable(true);
+    coordInputArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    coordInputArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    coordInputArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    coordInputArea->setMinimumSize(50, 50);
 
     coordSysArea = new QScrollArea;
-    coordSysArea->setWidget(coordWidget);
+    coordSysArea->setWidget(coordSysWidget);
     coordSysArea->setWidgetResizable(true);
     coordSysArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     coordSysArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -32,7 +33,8 @@ MainWindow::MainWindow()
     createMenus();
 
     QGridLayout *centralLayout = new QGridLayout;
-    centralLayout->addWidget(coordSysArea, 0, 1);
+    centralLayout->addWidget(coordInputArea, 0, 0, 1, 1);
+    centralLayout->addWidget(coordSysArea, 0, 1, 1, 2);
 //    centralLayout->addWidget(glWidgetArea, 0, 2);
     centralWidget->setLayout(centralLayout);
 
@@ -54,7 +56,6 @@ void MainWindow::createActions()
 
     mergeAct = new QAction(tr("Merger"), this);
     mergeAct->setShortcut(tr("Ctrl+M"));
-//    connect(mergeAct, SIGNAL(triggered()), this, SLOT(clearPixmap()));
 
     signalAnalysisAct = new QAction(tr("Signal Analysis"), this);
     signalAnalysisAct->setShortcut(tr("Ctrl+I"));

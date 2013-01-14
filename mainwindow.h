@@ -14,7 +14,7 @@ class QMenu;
 class QAction;
 class QScrollArea;
 
-class GLWidget;
+class CoordWidget;
 class CoordSysWidget;
 
 class MainWindow : public QMainWindow
@@ -33,10 +33,11 @@ private:
     void createActions();
 
     QWidget *centralWidget;
-    QScrollArea *glWidgetArea;
+    QScrollArea *coordInputArea;
     QScrollArea *coordSysArea;
-    GLWidget *glWidget;
+//    GLWidget *glWidget;
     QWidget *coordWidget;
+    QWidget *coordSysWidget;
 
     QMenu *dataMenu;
     QMenu *modelMenu;

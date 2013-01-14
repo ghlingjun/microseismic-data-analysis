@@ -16,9 +16,14 @@ TRANSLATIONS += language.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    coordsyswidget.cpp
+    coordsyswidget.cpp \
+    coordwidget.cpp
 
 HEADERS  += mainwindow.h \
-    coordsyswidget.h
+    coordsyswidget.h \
+    coordwidget.h
 
 LIBS += -lglut32
+
+RESOURCES += \
+    microseismic-data-analysis.qrc
