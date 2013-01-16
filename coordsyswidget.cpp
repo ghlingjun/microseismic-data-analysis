@@ -12,6 +12,23 @@
 #define GL_MULTISAMPLE  0x809D
 #endif
 
+CoordSysWidget::CoordSysWidget(QWidget *parent,
+                               GLfloat vertexs[], int size) :
+        QGLWidget(parent)
+{
+    xRot = 0;
+    yRot = 0;
+    zRot = 0;
+    coordRot = 0;
+    // initialize vertex number
+    pointNum = size/3;
+    // initialize points coordinate
+    for(int i=0; i<size; i++)
+    {
+        points[i] = vertexs[i];
+    }
+}
+
 CoordSysWidget::CoordSysWidget(QWidget *parent) :
         QGLWidget(parent)
 {
@@ -19,6 +36,9 @@ CoordSysWidget::CoordSysWidget(QWidget *parent) :
     yRot = 0;
     zRot = 0;
     coordRot = 0;
+    pointNum = 0;
+
+//    display(points);
 
 //    QTimer *timer = new QTimer(this);
 //    connect(timer, SIGNAL(timeout()), this, SLOT(advenceCoord()));
@@ -40,30 +60,22 @@ void CoordSysWidget::move()
 
 void CoordSysWidget::paintGL()
 {
-//    glMatrixMode(GL_PROJECTION);
-//    glLoadIdentity();
-//    gluPerspective(45, 1, 1, 40);
-//    glMatrixMode(GL_MODELVIEW);
-//    glLoadIdentity();
-//    gluLookAt(7, -25, 10, 0, 0, 0, 0, 0, 1);
-
     glPushMatrix();
     glRotated(xRot / 16.0, 1.0, 0.0, 0.0);
     glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
     glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
     move();
-//    glRotated(30.0, 1.0, 0.0, 0.0);
-//    glRotated(-20.0, 0.0, 1.0, 0.0);
-    drawCoords(); // -2.0, -1.0, 0.0, coordRot / 16.0
-//    glPopMatrix();
+    drawCoords();
 
-//    glPushMatrix();
     qglColor(Qt::gray);
     move();
 //    renderText(0.0, 0.0, 10.5, "Coordition System");
     renderText(10.1, -0.3, 0.0, "x");
     renderText(-0.3, 10.1, 0.0, "y");
     renderText(0.0, 0.3, 10.1, "z");
+
+    drawPoints();
+
     glPopMatrix();
 }
 
@@ -110,13 +122,19 @@ void CoordSysWidget::drawCoords()
     glDrawArrays(GL_LINES, 0, 2);
     glDrawArrays(GL_TRIANGLES, 2, 3);
     glDrawArrays(GL_TRIANGLES, 5, 3);
+}
 
+void CoordSysWidget::drawPoints()
+{
 //    glPushMatrix();
-//    glTranslated(9.75f, 0.0f, 0.0f);
-//    glutSolidCone(0.013, 0.09, 10, 10);
+    glColor3f(1.0f, 1.0f, 0.0f);
+    glVertexPointer(3, GL_FLOAT, 0, points);
+    glPointSize(2.0);
+    for(int i=0; i<pointNum; i++)
+    {
+        glDrawArrays(GL_POINTS, i*3, 3);
+    }
 //    glPopMatrix();
-
-//    glFlush();
 }
 
 void CoordSysWidget::normalizeAngle(int *angle)
@@ -204,4 +222,38 @@ void CoordSysWidget::resizeGL(int width, int height)
     glLoadIdentity();
     glTranslated(0.0, 0.0, -40.0);
     gluLookAt(3, -7, 7, 0, 0, 0, 0, 0, 1);
+}
+
+void CoordSysWidget::display(GLfloat points[][3])
+{
+    //    glMatrixMode(GL_PROJECTION);
+    //    glLoadIdentity();
+    //    gluPerspective(45, 1, 1, 40);
+    //    glMatrixMode(GL_MODELVIEW);
+    //    glLoadIdentity();
+    //    gluLookAt(7, -25, 10, 0, 0, 0, 0, 0, 1);
+
+    glPushMatrix();
+    glRotated(xRot / 16.0, 1.0, 0.0, 0.0);
+    glRotated(yRot / 16.0, 0.0, 1.0, 0.0);
+    glRotated(zRot / 16.0, 0.0, 0.0, 1.0);
+    move();
+    //    glRotated(30.0, 1.0, 0.0, 0.0);
+    //    glRotated(-20.0, 0.0, 1.0, 0.0);
+    drawCoords();
+
+//    if(sizeof(points) != 0)
+//    {
+//        drawPoints(points);
+//    }
+
+    qglColor(Qt::gray);
+    move();
+    //    renderText(0.0, 0.0, 10.5, "Coordition System");
+    renderText(10.1, -0.3, 0.0, "x");
+    renderText(-0.3, 10.1, 0.0, "y");
+    renderText(0.0, 0.3, 10.1, "z");
+    glPopMatrix();
+
+    glFlush();
 }

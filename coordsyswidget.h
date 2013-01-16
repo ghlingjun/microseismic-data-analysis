@@ -3,11 +3,13 @@
 
 #include <QtOpenGL>
 
+#define POINTSNUM 500
 class CoordSysWidget : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit CoordSysWidget(QWidget *parent = 0);
+    CoordSysWidget(QWidget *parent = 0);
+    CoordSysWidget(QWidget *parent, GLfloat vertexs[], int size);
 
 public slots:
     void setXRotation(int angle);
@@ -31,11 +33,15 @@ private slots:
 //    void advenceCoord();
 
 private:
-    GLuint makeCoords(const GLfloat *reflectanc);
+//    GLuint makeCoords(const GLfloat *reflectanc);
+    void display(GLfloat points[][3]);
     void drawCoords(); //GLdouble angle
+    void drawPoints();
     void normalizeAngle(int *angle);
     void move();
 
+    GLfloat points[POINTSNUM];
+    int pointNum;
     int xRot;
     int yRot;
     int zRot;

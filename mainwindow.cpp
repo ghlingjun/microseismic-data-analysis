@@ -10,8 +10,13 @@ MainWindow::MainWindow()
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
+    GLfloat points[] = {
+        1.0f, 3.0f, 2.0f,
+        2.0f, 3.0f, 2.0f,
+        3.0f, 3.0f, 2.0f
+    };
     coordWidget = new CoordWidget;
-    coordSysWidget = new CoordSysWidget;
+    coordSysWidget = new CoordSysWidget(0, points, 9);
 
     coordInputArea = new QScrollArea;
     coordInputArea->setWidget(coordWidget);

@@ -29,8 +29,10 @@ void CoordWidget::createTextWidget()
                               QSizePolicy::Ignored);
 
     QWidget *tab1 = new QWidget;
-    tableWidget = new QTableWidget(3, 50);
-    tableWidget->setHorizontalHeaderItem();
+    tableWidget = new QTableWidget(50, 3);
+    QStringList headers;
+    headers << "Latitude" << "Longitude" << "Altitude";
+    tableWidget->setHorizontalHeaderLabels(headers);
 
     QHBoxLayout *tab1hbox = new QHBoxLayout;
     tab1hbox->setMargin(5);

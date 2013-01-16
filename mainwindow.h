@@ -37,7 +37,7 @@ private:
     QScrollArea *coordSysArea;
 //    GLWidget *glWidget;
     QWidget *coordWidget;
-    QWidget *coordSysWidget;
+    CoordSysWidget *coordSysWidget;
 
     QMenu *dataMenu;
     QMenu *modelMenu;
