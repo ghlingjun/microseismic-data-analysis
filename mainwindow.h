@@ -13,6 +13,7 @@ class QLabel;
 class QMenu;
 class QAction;
 class QScrollArea;
+class QDialogButtonBox;
 
 class CoordWidget;
 class CoordSysWidget;
@@ -24,6 +25,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
 
+public slots:
+    void accept();
+
 private slots:
     void about();
 
@@ -31,12 +35,13 @@ private:
 //    Helper helper;
     void createMenus();
     void createActions();
+    void createButtonBox();
 
     QWidget *centralWidget;
     QScrollArea *coordInputArea;
     QScrollArea *coordSysArea;
 //    GLWidget *glWidget;
-    QWidget *coordWidget;
+    CoordWidget *coordWidget;
     CoordSysWidget *coordSysWidget;
 
     QMenu *dataMenu;
@@ -50,6 +55,8 @@ private:
     QAction *dividToGridAct;
     QAction *travelTimeCalcAct;
     QAction *aboutAct;
+
+    QDialogButtonBox *buttonBox;
 };
 
 #endif // MAINWINDOW_H

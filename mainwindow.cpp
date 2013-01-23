@@ -5,18 +5,18 @@
 #include "coordsyswidget.h"
 #include "mainwindow.h"
 
+/**
+  author: Ethan
+  date: 2013-1-9
+  */
 MainWindow::MainWindow()
 {
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
-    GLfloat points[] = {
-        1.0f, 3.0f, 2.0f,
-        2.0f, 3.0f, 2.0f,
-        3.0f, 3.0f, 2.0f
-    };
-    coordWidget = new CoordWidget;
-    coordSysWidget = new CoordSysWidget(0, points, 9);
+    coordWidget = new CoordWidget; // 坐标点输入控件
+    createButtonBox();
+    coordSysWidget = new CoordSysWidget; // 坐标系显示控件
 
     coordInputArea = new QScrollArea;
     coordInputArea->setWidget(coordWidget);
@@ -34,12 +34,17 @@ MainWindow::MainWindow()
     coordSysArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     coordSysArea->setMinimumSize(50, 50);
 
+    // 创建动作和菜单
     createActions();
     createMenus();
 
+    // 布局控制
     QGridLayout *centralLayout = new QGridLayout;
     centralLayout->addWidget(coordInputArea, 0, 0, 1, 1);
+    centralLayout->setColumnStretch(0, 200);
+    centralLayout->setColumnStretch(1, 500);
     centralLayout->addWidget(coordSysArea, 0, 1, 1, 2);
+    centralLayout->addWidget(buttonBox, 1, 0, 1, 1);
 //    centralLayout->addWidget(glWidgetArea, 0, 2);
     centralWidget->setLayout(centralLayout);
 
@@ -97,4 +102,51 @@ void MainWindow::createMenus()
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
+}
+
+void MainWindow::createButtonBox()
+{
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                     | QDialogButtonBox::Cancel);
+
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+/**
+  当确定时，把文本控件内的内容解析，得到要画出的坐标点，并在坐标系中绘出所有点
+  */
+void MainWindow::accept()
+{
+    GLfloat points[POINTSNUM][3];
+    QString pointNames[POINTSNUM];
+    int index = 0;
+    QString coord = 0; // left string
+    QStringList strlist; // one coordinate
+    int pointsIndex = 0; // points array cursor
+    QString text = 0;
+
+    QTextEdit *textEdit = coordWidget->getTextEdit();
+    text.append(textEdit->toPlainText());
+    // cut from '{'
+    QString coordStr = text.mid(text.indexOf('{') + 1).trimmed();
+    index = coordStr.indexOf(';');
+    // get coordinate and remove the ';'
+    coord = coordStr.left(index + 1).left(index).trimmed();
+    while(coord.compare("")!=1 && index!=-1) {
+        // remove the coord
+        coordStr = coordStr.mid(index + 1);
+        strlist = coord.split(',');
+        pointNames[pointsIndex] = strlist.at(0).trimmed();
+        points[pointsIndex][0] = strlist.at(1).toFloat();
+        points[pointsIndex][1] = strlist.at(2).toFloat();
+        points[pointsIndex][2] = strlist.at(3).toFloat();
+        pointsIndex++;
+        index = coordStr.indexOf(';');
+        coord = coordStr.left(index + 1).left(index).trimmed();
+    }
+
+    delete coordSysWidget;
+    coordSysWidget = new CoordSysWidget(0, points, pointNames);
+    coordSysArea->setWidget(coordSysWidget);
 }

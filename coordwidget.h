@@ -5,9 +5,6 @@
 
 class QLineEdit;
 class QProgressBar;
-class QScrollBar;
-class QSlider;
-class QSpinBox;
 class QTabWidget;
 class QTableWidget;
 class QTextEdit;
@@ -17,6 +14,7 @@ class CoordWidget : public QWidget
     Q_OBJECT
 public:
     explicit CoordWidget(QWidget *parent = 0);
+    QTextEdit* getTextEdit();
 
 signals:
 
@@ -32,7 +30,7 @@ private:
     QPalette originalPalette;
 
     QTabWidget *textWidget;
-    QTableWidget *tableWidget;
+//    QTableWidget *tableWidget;
     QTextEdit *textEdit;
 
     QProgressBar *progressBar;
