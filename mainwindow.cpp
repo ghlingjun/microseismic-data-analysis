@@ -14,6 +14,40 @@ MainWindow::MainWindow()
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
 
+    QWidget *topFiller = new QWidget;
+    topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QLabel *infoLabel = new QLabel(tr("<i>Microseismic Data Analysis</i>"));
+    infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+    infoLabel->setAlignment(Qt::AlignCenter);
+
+    QWidget *bottomFiller = new QWidget;
+    bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->setMargin(5);
+    layout->addWidget(topFiller);
+    layout->addWidget(infoLabel);
+    layout->addWidget(bottomFiller);
+    centralWidget->setLayout(layout);
+
+    // 创建动作和菜单
+    createActions();
+    createMenus();
+
+    QString message = tr("To choose a menu option for act");
+    statusBar()->showMessage(message);
+
+    setWindowTitle(tr("Microseismic Data Analysis"));
+    resize(WIDTH, HEIGHT);
+}
+
+void MainWindow::drawCoordSys()
+{
+    delete centralWidget;
+    centralWidget = new QWidget;
+    setCentralWidget(centralWidget);
+
     coordWidget = new CoordWidget; // 坐标点输入控件
     createButtonBox();
     coordSysWidget = new CoordSysWidget; // 坐标系显示控件
@@ -34,10 +68,6 @@ MainWindow::MainWindow()
     coordSysArea->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     coordSysArea->setMinimumSize(50, 50);
 
-    // 创建动作和菜单
-    createActions();
-    createMenus();
-
     // 布局控制
     QGridLayout *centralLayout = new QGridLayout;
     centralLayout->addWidget(coordInputArea, 0, 0, 1, 1);
@@ -47,9 +77,6 @@ MainWindow::MainWindow()
     centralLayout->addWidget(buttonBox, 1, 0, 1, 1);
 //    centralLayout->addWidget(glWidgetArea, 0, 2);
     centralWidget->setLayout(centralLayout);
-
-    setWindowTitle(tr("Microseismic Data Analysis"));
-    resize(WIDTH, HEIGHT);
 }
 
 void MainWindow::about()
@@ -74,8 +101,11 @@ void MainWindow::createActions()
     exitAct->setShortcuts(QKeySequence::Quit);
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    dividToGridAct = new QAction(tr("Divide To Grid"), this);
-    dividToGridAct->setShortcut(tr("Ctrl+D"));
+    drawCoordSysAct = new QAction(tr("Divide To Grid"), this);
+    drawCoordSysAct->setShortcut(tr("Ctrl+D"));
+    drawCoordSysAct->setStatusTip(tr("Draw a coordinate system for display the "
+                                     "location of diveces."));
+    connect(drawCoordSysAct, SIGNAL(triggered()), this, SLOT(drawCoordSys()));
 
     travelTimeCalcAct = new QAction(tr("Travel Time"), this);
     travelTimeCalcAct->setShortcut(tr("Ctrl+T"));
@@ -95,7 +125,7 @@ void MainWindow::createMenus()
     dataMenu->addAction(exitAct);
 
     modelMenu = menuBar()->addMenu(tr("Model Build"));
-    modelMenu->addAction(dividToGridAct);
+    modelMenu->addAction(drawCoordSysAct);
     modelMenu->addAction(travelTimeCalcAct);
 
     seismicSourceMenu = menuBar()->addMenu(tr("Microseismic Point"));

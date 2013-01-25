@@ -42,9 +42,9 @@ void CoordWidget::createTextWidget()
     textEdit->setPlainText(tr("Every line is a coordinate(the max coordinate is 200)."
                               "Write like this: \n{\n"
                               "C1,1.1,3.2,2.1;\n"
-                              "C2,2.3,3.3,2.2;\n"
-                              "C3,3.3,3.1,2.3;\n"
-                              "C4,-3.3,-3.1,2.3;\n"
+                              "C2,5.3,4.3,3.2;\n"
+                              "C3,3.3,3.1,5.3;\n"
+                              "C4,4.3,2.1,2.3;\n"
                               "\n}"));
 //    "Twinkle, twinkle, little star,\n"
 //    "How I wonder what you are.\n"

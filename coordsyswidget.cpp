@@ -164,26 +164,27 @@ void CoordSysWidget::drawGrid()
     glEnable(GL_LINE_STIPPLE);
     glLineStipple(2, 0xAAAA);
     glBegin(GL_LINES);
-    int max = MAXCOORD - 3;
-    for(int x=-max; x<=max; x+=2)
+    int max = MAXCOORD - 9;
+    GLfloat incremental = 3;
+    for(int x=-max; x<=max; x+=incremental)
     {
-        for(int z=-max; z<=max; z+=2)
+        for(int z=-max; z<=max; z+=incremental)
         {
             glVertex3f(x, max, z);
             glVertex3f(x, -max, z);
         }
     }
-    for(int y=-max; y<=max; y+=2)
+    for(int y=-max; y<=max; y+=incremental)
     {
-        for(int z=-max; z<=max; z+=2)
+        for(int z=-max; z<=max; z+=incremental)
         {
             glVertex3f(max, y, z);
             glVertex3f(-max, y, z);
         }
     }
-    for(int x=-max; x<=max; x+=2)
+    for(int x=-max; x<=max; x+=incremental)
     {
-        for(int y=-max; y<=max; y+=2)
+        for(int y=-max; y<=max; y+=incremental)
         {
             glVertex3f(x, y, max);
             glVertex3f(x, y, -max);

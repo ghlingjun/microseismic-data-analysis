@@ -30,6 +30,7 @@ public slots:
 
 private slots:
     void about();
+    void drawCoordSys();
 
 private:
 //    Helper helper;
@@ -52,7 +53,7 @@ private:
     QAction *mergeAct;
     QAction *signalAnalysisAct;
     QAction *exitAct;
-    QAction *dividToGridAct;
+    QAction *drawCoordSysAct;
     QAction *travelTimeCalcAct;
     QAction *aboutAct;
 
