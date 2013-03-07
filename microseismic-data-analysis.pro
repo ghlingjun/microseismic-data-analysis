@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += opengl
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,13 +18,20 @@ TRANSLATIONS += language.ts
 SOURCES += main.cpp\
         mainwindow.cpp \
     coordsyswidget.cpp \
-    coordwidget.cpp
+    coordwidget.cpp \
+    datamodel.cpp
 
 HEADERS  += mainwindow.h \
     coordsyswidget.h \
-    coordwidget.h
+    coordwidget.h \
+    datamodel.h \
+    connection.h \
+    connection.h
 
 LIBS += -lglut32
 
 RESOURCES += \
     microseismic-data-analysis.qrc
+
+OTHER_FILES += \
+    microseismic.sql

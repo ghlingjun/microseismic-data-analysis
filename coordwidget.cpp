@@ -1,4 +1,6 @@
 #include <QtGui>
+#include <QtSql>
+
 #include "coordwidget.h"
 
 /**
@@ -10,13 +12,29 @@ CoordWidget::CoordWidget(QWidget *parent) :
 {
     originalPalette = QApplication::palette();
 
-    createTextWidget();
+//    createTextWidget();
+    createTbl();
 //    createProgressBar();
 
     QGridLayout *mainLayout = new QGridLayout;
-    mainLayout->addWidget(textWidget, 0, 0);
+//    mainLayout->addWidget(textWidget, 0, 0);
+    mainLayout->addWidget(tableView, 0, 0);
 //    mainLayout->addWidget(progressBar, 1, 0);
     setLayout(mainLayout);
+}
+
+void CoordWidget::createTbl()
+{
+    DataModel *dataModel = DataModel::getInstance();
+
+//    QSqlTableModel model;
+//    initializeModel(&model);
+//    tableView = createView(QObject::tr("Table Model"), &model);
+
+//    QSqlTableModel *model = new QSqlTableModel;
+    dataModel->initializeModel();
+    tableView = dataModel->createView(QObject::tr("Table Model"));
+//    tableView->show();
 }
 
 void CoordWidget::createTextWidget()
@@ -83,3 +101,32 @@ void CoordWidget::advanceProgressBar()
     int maxVal = progressBar->maximum();
     progressBar->setValue(curVal + (maxVal - curVal) / 100);
 }
+
+void CoordWidget::initializeModel(QSqlTableModel *model)
+ {
+     model->setTable("msdata");
+//     model->setQuery("select id,name,x,y,z,time from msdata");
+//     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+     model->select();
+
+     model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
+     model->setHeaderData(1, Qt::Horizontal, QObject::tr("Name"));
+     model->setHeaderData(2, Qt::Horizontal, QObject::tr("X"));
+     model->setHeaderData(3, Qt::Horizontal, QObject::tr("Y"));
+     model->setHeaderData(4, Qt::Horizontal, QObject::tr("Z"));
+     model->setHeaderData(5, Qt::Horizontal, QObject::tr("Longitude"));
+     model->setHeaderData(6, Qt::Horizontal, QObject::tr("Latitude"));
+     model->setHeaderData(7, Qt::Horizontal, QObject::tr("Altitude"));
+     model->setHeaderData(8, Qt::Horizontal, QObject::tr("Pressure"));
+     model->setHeaderData(9, Qt::Horizontal, QObject::tr("Time"));
+ }
+
+QTableView * CoordWidget::createView(const QString &title, QSqlTableModel *model)
+ {
+     QTableView *view = new QTableView;
+     view->setSizePolicy(QSizePolicy::Preferred,
+                         QSizePolicy::Ignored);
+     view->setModel(model);
+//     view->setWindowTitle(title);
+     return view;
+ }

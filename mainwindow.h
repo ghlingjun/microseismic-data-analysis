@@ -17,6 +17,7 @@ class QDialogButtonBox;
 
 class CoordWidget;
 class CoordSysWidget;
+class DataModel;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +28,7 @@ public:
 
 public slots:
     void accept();
+//    void reject();
 
 private slots:
     void about();
@@ -44,6 +46,7 @@ private:
 //    GLWidget *glWidget;
     CoordWidget *coordWidget;
     CoordSysWidget *coordSysWidget;
+    DataModel *dataModel;
 
     QMenu *dataMenu;
     QMenu *modelMenu;

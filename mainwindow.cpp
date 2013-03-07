@@ -1,8 +1,10 @@
 #include <QtGui>
 #include <QtOpenGL>
+#include <QtSql>
 
 #include "coordwidget.h"
 #include "coordsyswidget.h"
+#include "datamodel.h"
 #include "mainwindow.h"
 
 /**
@@ -17,7 +19,7 @@ MainWindow::MainWindow()
     QWidget *topFiller = new QWidget;
     topFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    QLabel *infoLabel = new QLabel(tr("<i>Microseismic Data Analysis</i>"));
+    QLabel *infoLabel = new QLabel(tr("<b><i>Microseismic Data Analysis</i></b>"));
     infoLabel->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     infoLabel->setAlignment(Qt::AlignCenter);
 
@@ -150,6 +152,8 @@ void MainWindow::accept()
 {
     GLfloat points[POINTSNUM][3];
     QString pointNames[POINTSNUM];
+
+    /*
     int index = 0;
     QString coord = 0; // left string
     QStringList strlist; // one coordinate
@@ -174,6 +178,20 @@ void MainWindow::accept()
         pointsIndex++;
         index = coordStr.indexOf(';');
         coord = coordStr.left(index + 1).left(index).trimmed();
+    }
+    */
+
+    //QTableView *tableView = dataModel->getTableView();
+    dataModel = DataModel::getInstance();
+    QSqlTableModel *tableModel = dataModel->getTableModel();
+    int lines = tableModel->rowCount();
+    int i;
+    for(i=0; i<lines; i++)
+    {
+        points[i][0] = tableModel->record(i).value("x").toFloat();
+        points[i][1] = tableModel->record(i).value("y").toFloat();
+        points[i][2] = tableModel->record(i).value("z").toFloat();
+        pointNames[i] = tableModel->record(i).value("name").toString();
     }
 
     delete coordSysWidget;
