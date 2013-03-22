@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include <QApplication>
 #include <QTranslator>
 
 /*
@@ -8,15 +7,15 @@ date: 2013-1-9
 */
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
     // 加载国际化文件
     QTranslator translator;
     translator.load("language.qm");
-    a.installTranslator(&translator);
+    app.installTranslator(&translator);
 
-    MainWindow w;
-    w.show();
+    MainWindow win;
+    win.show();
 
-    return a.exec();
+    return app.exec();
 }

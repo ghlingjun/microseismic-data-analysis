@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
+
+#include "coordwidget.h"
+#include "coordsyswidget.h"
+#include "datamodel.h"
+#include "dbconn.h"
 
 //namespace Ui {
 //class MainWindow;
@@ -14,10 +20,6 @@ class QMenu;
 class QAction;
 class QScrollArea;
 class QDialogButtonBox;
-
-class CoordWidget;
-class CoordSysWidget;
-class DataModel;
 
 class MainWindow : public QMainWindow
 {

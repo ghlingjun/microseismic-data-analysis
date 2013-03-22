@@ -2,9 +2,6 @@
 #include <QtOpenGL>
 #include <QtSql>
 
-#include "coordwidget.h"
-#include "coordsyswidget.h"
-#include "datamodel.h"
 #include "mainwindow.h"
 
 /**
@@ -49,6 +46,13 @@ void MainWindow::drawCoordSys()
     delete centralWidget;
     centralWidget = new QWidget;
     setCentralWidget(centralWidget);
+
+    // 如果数据库连接不成功，则退出程序。
+    DBConn *dbconn = new DBConn();
+    if(!dbconn->createConnection())
+    {
+        return;
+    }
 
     coordWidget = new CoordWidget; // 坐标点输入控件
     createButtonBox();

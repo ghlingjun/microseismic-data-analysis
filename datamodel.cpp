@@ -3,13 +3,13 @@
 #include <QtDebug>
 #include <QtSql>
 
-#include "connection.h"
-
 DataModel::DataModel(QWidget *parent) :
     QWidget(parent)
 {
+    dbconn = new DBConn();
+
     qDebug() << "DataModel constructor begin...\n";
-    if(createConnection())
+    if(dbconn->createConnection())
     {
         qDebug() << "Connection success...\n";
         model = new QSqlTableModel;

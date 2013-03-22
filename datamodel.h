@@ -5,6 +5,8 @@
 #include <QSqlTableModel>
 #include <QTableView>
 
+#include "dbconn.h"
+
 class QTableWidget;
 
 class DataModel : public QWidget
@@ -16,6 +18,7 @@ private:
     QSqlTableModel *model;
     QTableView *view;
     static DataModel * instance;
+    DBConn *dbconn;
 
 public:
 //    explicit DataModel(QWidget *parent = 0);

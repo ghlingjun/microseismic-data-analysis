@@ -2,7 +2,10 @@ username: microseismic
 password: yunling
 
 -- create database
-grant create, select, update, delete, alter to microseismic.* @localhost identified by "yunling";
+create database microseismic;
+
+-- grant 
+grant create, select, update, delete, alter on microseismic.* to microseismic@"%" identified by "yunling";
 
 -- create tables
 create table msdata (id MEDIUMINT NOT NULL AUTO_INCREMENT, name CHAR(30) NOT NULL, x float, y float,

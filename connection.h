@@ -59,9 +59,9 @@ static bool createConnection()
     db.setUserName("microseismic");
     db.setPassword("yunling");
     if (!db.open()) {
-//        QMessageBox::critical(0, qApp->tr("Cannot open database"),
-//            qApp->tr("Unable to establish a database connection.\n"
-//                     "Click Cancel to exit."), QMessageBox::Cancel);
+        QMessageBox::critical(0, qApp->tr("Cannot open database"),
+            qApp->tr("Unable to establish a database connection.\n"
+                     "Click Cancel to exit."), QMessageBox::Cancel);
         return false;
     }
 /*
